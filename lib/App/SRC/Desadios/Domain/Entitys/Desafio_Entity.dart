@@ -1,31 +1,31 @@
 import 'dart:io';
 
 class DesafioEntity {
-  final String url;
+  final String imageUrl;
   final String titulo;
-  final DateTime dataLimite;
-  final List<String> listDeRegras;
   final String tag;
-  const DesafioEntity({
-    required this.tag,
-    required this.listDeRegras,
-    required this.url,
-    required this.dataLimite,
+  final String regras;
+  final DateTime dataLimite;
+  DesafioEntity({
+    required this.imageUrl,
     required this.titulo,
+    required this.tag,
+    required this.regras,
+    required this.dataLimite,
   });
 }
 
-class DesafioForm {
+class DesafioFrom {
   final File image;
   final String titulo;
   final DateTime dataLimite;
-  final List<String> listDeRegras;
+  final String listDeRegras;
   final String tag;
-  const DesafioForm({
+  const DesafioFrom({
+    required this.image,
+    required this.titulo,
     required this.tag,
     required this.listDeRegras,
-    required this.image,
     required this.dataLimite,
-    required this.titulo,
   });
 }

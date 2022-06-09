@@ -1,14 +1,14 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
-import 'package:testes_de_estudos/App/Data_Source/Domain/Entities/Desafio_Entity.dart';
+
 import 'package:testes_de_estudos/App/LocalServices/Fixed_Format.dart';
-import 'package:testes_de_estudos/App/LocalServices/Get_Image.dart';
+
 import 'package:testes_de_estudos/Pages/Desafios/View/Add_Desafio_Page.dart';
 
 import '../../../App/LocalServices/Entities/ImageDataEntitie.dart';
+import '../../../App/SRC/Desadios/Domain/Entitys/Desafio_Entity.dart';
 
 part 'Desafios_page_Controller.g.dart';
 
@@ -27,12 +27,29 @@ abstract class _DesafilPageControllerIMLP with Store {
   @observable
   File? desafioImageSelect;
 
+  @observable
+  int dias = 2;
+
   int _numeroDeLinha = 0;
 
   List<String> _listRegrasDoDesafio = [];
 
   bool travaSicronia = false;
   /*--[actions]--*/
+  @action
+  void addDayDesafio() {
+    if (dias < 7) {
+      dias++;
+    }
+  }
+
+  @action
+  void remuveDayDesafio() {
+    if (dias > 2) {
+      dias--;
+    }
+  }
+
   @action
   Future<void> saveNewDesafio() async {}
   @action
@@ -59,7 +76,6 @@ abstract class _DesafilPageControllerIMLP with Store {
   @action
   Future<void> getimageDesafiol() async {
     LocalImage? value = await GetImagePikercorte.getimage();
-
     if (value != null) {
       desafioImageSelect = value.image;
     }

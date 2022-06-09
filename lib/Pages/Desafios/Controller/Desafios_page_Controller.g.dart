@@ -73,6 +73,22 @@ mixin _$DesafioPageControllerMobx on _DesafilPageControllerIMLP, Store {
     });
   }
 
+  late final _$diasAtom =
+      Atom(name: '_DesafilPageControllerIMLP.dias', context: context);
+
+  @override
+  int get dias {
+    _$diasAtom.reportRead();
+    return super.dias;
+  }
+
+  @override
+  set dias(int value) {
+    _$diasAtom.reportWrite(value, super.dias, () {
+      super.dias = value;
+    });
+  }
+
   late final _$saveNewDesafioAsyncAction = AsyncAction(
       '_DesafilPageControllerIMLP.saveNewDesafio',
       context: context);
@@ -104,11 +120,22 @@ mixin _$DesafioPageControllerMobx on _DesafilPageControllerIMLP, Store {
       ActionController(name: '_DesafilPageControllerIMLP', context: context);
 
   @override
-  void regrasConfig({required String text}) {
+  void addDayDesafio() {
     final _$actionInfo = _$_DesafilPageControllerIMLPActionController
-        .startAction(name: '_DesafilPageControllerIMLP.regrasConfig');
+        .startAction(name: '_DesafilPageControllerIMLP.addDayDesafio');
     try {
-      return super.regrasConfig(text: text);
+      return super.addDayDesafio();
+    } finally {
+      _$_DesafilPageControllerIMLPActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void remuveDayDesafio() {
+    final _$actionInfo = _$_DesafilPageControllerIMLPActionController
+        .startAction(name: '_DesafilPageControllerIMLP.remuveDayDesafio');
+    try {
+      return super.remuveDayDesafio();
     } finally {
       _$_DesafilPageControllerIMLPActionController.endAction(_$actionInfo);
     }
@@ -131,7 +158,8 @@ mixin _$DesafioPageControllerMobx on _DesafilPageControllerIMLP, Store {
 tituloController: ${tituloController},
 tagController: ${tagController},
 regrasController: ${regrasController},
-desafioImageSelect: ${desafioImageSelect}
+desafioImageSelect: ${desafioImageSelect},
+dias: ${dias}
     ''';
   }
 }

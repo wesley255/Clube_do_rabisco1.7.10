@@ -1,12 +1,16 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:testes_de_estudos/App/LocalServices/Fixed_Format.dart';
 
 import 'package:testes_de_estudos/App/Styles/App_Styles.dart';
 import 'package:testes_de_estudos/App/Widgets/ButtonGetImage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:testes_de_estudos/App/Widgets/CusttomButtom.dart';
 import 'package:testes_de_estudos/Pages/Desafios/Controller/Desafios_page_Controller.dart';
+
 import '../../../App/LocalServices/Entities/ImageDataEntitie.dart';
 
 class AddDesafioPage extends StatefulWidget {
@@ -16,7 +20,7 @@ class AddDesafioPage extends StatefulWidget {
 }
 
 class _AddDesafioPageState extends State<AddDesafioPage> {
-  final DesafioPageControllerMobx _pageController =
+  final DesafioPageControllerMobx pageController =
       DesafioPageController.controller;
   @override
   Widget build(BuildContext context) {
@@ -42,10 +46,10 @@ class _AddDesafioPageState extends State<AddDesafioPage> {
                                 decoration: BoxDecoration(
                                   color: Colors.brown,
                                   image:
-                                      _pageController.desafioImageSelect == null
+                                      pageController.desafioImageSelect == null
                                           ? null
                                           : DecorationImage(
-                                              image: FileImage(_pageController
+                                              image: FileImage(pageController
                                                   .desafioImageSelect!),
                                               fit: BoxFit.cover),
                                 ),
@@ -60,7 +64,7 @@ class _AddDesafioPageState extends State<AddDesafioPage> {
                         child: ButtonGetImage(
                           radius: 25,
                           onTap: () async {
-                            _pageController.getimageDesafiol();
+                            pageController.getimageDesafiol();
                           },
                         ),
                       )
@@ -68,7 +72,18 @@ class _AddDesafioPageState extends State<AddDesafioPage> {
                   ),
                   BoxParmEditar(
                     titulo: 'titulo',
-                    controller: _pageController.tituloController,
+                    onChanged: (t) {
+                      print(t.length);
+                      pageController.tituloController = FixedFormat.addAspas(
+                          controller: pageController.tituloController,
+                          prefixo: '"',
+                          sufixo: '"');
+                    },
+                    inputStyle: TextStyle(
+                      fontSize: 24,
+                      fontFamily: AppFontes.montserratExtraBold,
+                    ),
+                    controller: pageController.tituloController,
                     textAlign: TextAlign.center,
                   ),
                   Text(
@@ -80,21 +95,74 @@ class _AddDesafioPageState extends State<AddDesafioPage> {
                   ),
                   BoxParmEditar(
                     titulo: '#tag de vinculo',
-                    controller: _pageController.tagController,
+                    inputStyle: TextStyle(
+                      fontSize: 24,
+                      fontFamily: AppFontes.montserrat,
+                      decoration: TextDecoration.none,
+                    ),
+                    controller: pageController.tagController,
                     textAlign: TextAlign.center,
                     margim: EdgeInsets.symmetric(vertical: 10),
                     onChanged: (t) {
-                      _pageController.tagConfig();
+                      pageController.tagConfig();
                     },
                   ),
                   BoxParmEditar(
-                    titulo: 'regras do desafio',
-                    controller: _pageController.regrasController,
-                    muiltline: 10,
-                    onChanged: (t) {
-                      _pageController.regrasConfig(text: t);
-                    },
+                      titulo: 'regras do desafio',
+                      controller: pageController.regrasController,
+                      muiltline: true,
+                      onChanged: (t) {
+                        pageController.regrasConfig(text: t);
+                      }),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      GestureDetector(
+                        onTap: () => pageController.addDayDesafio(),
+                        child: CircleAvatar(
+                          child: Icon(
+                            Icons.add,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          '0${pageController.dias} d:00 h:00 m',
+                          style: TextStyle(
+                              fontSize: 20, fontFamily: AppFontes.montserrat),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => pageController.remuveDayDesafio(),
+                        child: CircleAvatar(
+                          child: Icon(
+                            Icons.remove_outlined,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CusttonButton(
+                          labal: 'Cancelar',
+                          ontap: () {},
+                          borderColor: Colors.red,
+                        ),
+                        CusttonButton(
+                          labal: 'Adicionar',
+                          ontap: () {},
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               );
             }),
@@ -131,27 +199,29 @@ class GetImagePikercorte {
 }
 
 class BoxParmEditar extends StatelessWidget {
+  final TextStyle? inputStyle;
+  final double? maxHeight;
   final Function(String)? onChanged;
-  final Function(String)? onSubmitted;
-  final void Function()? onEditingComplete;
+  final TextInputType? keyboardType;
   final int? maxTextLeanth;
   final TextAlign? textAlign;
-  final int? muiltline;
+  final bool? muiltline;
   final double? heigth;
   final String titulo;
   final TextEditingController? controller;
   final EdgeInsets? margim;
   const BoxParmEditar(
       {required this.titulo,
-      this.onEditingComplete,
-      this.onSubmitted,
+      this.maxHeight,
+      this.inputStyle,
       this.onChanged,
       this.maxTextLeanth,
       this.controller,
       this.margim,
       this.heigth,
       this.textAlign,
-      this.muiltline});
+      this.muiltline,
+      this.keyboardType});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -167,17 +237,17 @@ class BoxParmEditar extends StatelessWidget {
             titulo,
             style: TextStyle(),
           ),
-          TextField(
-            onEditingComplete: onEditingComplete,
-            onSubmitted: onSubmitted,
-            textInputAction: TextInputAction.newline,
-            maxLines: null,
+          TextFormField(
+            keyboardType: keyboardType,
+            style: inputStyle,
+            maxLines: muiltline == true ? null : 1,
             onChanged: onChanged,
-            maxLength: maxTextLeanth,
             controller: controller,
             textAlign: textAlign == null ? TextAlign.start : textAlign!,
             decoration: InputDecoration(
-              border: OutlineInputBorder(borderSide: BorderSide.none),
+              isDense: true,
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
             ),
           )
         ],
@@ -185,6 +255,3 @@ class BoxParmEditar extends StatelessWidget {
     );
   }
 }
-
-List<String> regras = [];
-String test = '';

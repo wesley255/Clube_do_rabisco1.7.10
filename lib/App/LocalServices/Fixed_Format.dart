@@ -43,6 +43,10 @@ class FixedFormat {
     if (controller.text.length == 1) {
       if (controller.text[0] != prefixo[0]) {
         controller.text = prefixo + controller.text;
+        controller.selection = TextSelection(
+          baseOffset: controller.text.length,
+          extentOffset: controller.text.length,
+        );
       }
     } else if (listTexte.length > lines) {
       for (var element in listTexte) {
@@ -74,5 +78,46 @@ class FixedFormat {
     /*--------[retorno]---------*/
     return controller;
   }
+
+  static dateFormete({
+    required TextEditingController controller,
+  }) {
+    /*------[validação]-------*/
+    if (controller.text.length == 4) {
+      String value = controller.text;
+      if (value.substring(1, value.length) != ' d:') {
+        controller.text = value.substring(0, 2) + ' d:';
+        controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: controller.text.length),
+        );
+      }
+      return controller;
+    } else {
+      return controller;
+    }
+  }
+
+  static TextEditingController addAspas({
+    required TextEditingController controller,
+    required String prefixo,
+    required String sufixo,
+  }) {
+    String value = controller.text;
+    if (value.length >= prefixo.length) {
+      if (value[0] != prefixo) {
+        controller.text = prefixo + value;
+      }
+      if (value[value.length - 1] != sufixo) {
+        controller.text = value + sufixo;
+      }
+      controller.selection =
+          TextSelection.fromPosition(TextPosition(offset: value.length - 1));
+      return controller;
+    } else {
+      return controller;
+    }
+  }
 }
- /*------ */
+ /*------*/
+
+
