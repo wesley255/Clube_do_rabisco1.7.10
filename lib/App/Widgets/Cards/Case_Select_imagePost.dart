@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
-import 'package:testes_de_estudos/App/Data_Source/Domain/Data_Source_UserCase.dart';
+
 import 'package:testes_de_estudos/App/LocalServices/Entities/ImageDataEntitie.dart';
 import 'package:testes_de_estudos/App/Widgets/CusttomButtom.dart';
 import 'package:testes_de_estudos/App/Widgets/UserCircularAvatar.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
 import 'package:testes_de_estudos/Pages/Home/controller/HomeStore.dart';
 import 'package:testes_de_estudos/App/Widgets/CaixaDeTexto.dart';
 

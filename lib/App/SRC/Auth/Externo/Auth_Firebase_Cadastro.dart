@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
-import 'package:testes_de_estudos/App/Auth/infra/Datasource/Auth_datasource_Cadastro.dart';
-import 'package:testes_de_estudos/App/Services/AppInstances.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/infra/Datasource/Auth_datasource_Cadastro.dart';
 
 class AuthdatasourceCadastro implements AuthdatasourceCadastroContract {
   @override

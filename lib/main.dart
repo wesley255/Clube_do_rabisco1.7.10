@@ -5,7 +5,7 @@ import 'package:testes_de_estudos/App/Controller/AppController.dart';
 import 'package:testes_de_estudos/App/Data_Source/Domain/Data_Source_UserCase.dart';
 import 'package:testes_de_estudos/App/Data_Source/Externo/FirebaseCloud.dart';
 import 'package:testes_de_estudos/App/Data_Source/Infra/Repository/DataSourceRepositore.dart';
-import 'Pages/Desafios/View/desafios.dart';
+import 'package:testes_de_estudos/Pages/Auth_Check_Page.dart';
 import 'Pages/PageView/pageView.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w100),
         ),
       ),
-      home: Desafios(),
+      home: AuthCheckPage(),
     );
   }
 }

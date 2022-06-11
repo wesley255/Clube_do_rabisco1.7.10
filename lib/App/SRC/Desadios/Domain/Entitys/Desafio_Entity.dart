@@ -5,27 +5,37 @@ class DesafioEntity {
   final String titulo;
   final String tag;
   final String regras;
-  final DateTime dataLimite;
-  DesafioEntity({
-    required this.imageUrl,
-    required this.titulo,
-    required this.tag,
-    required this.regras,
-    required this.dataLimite,
-  });
+  final int duration;
+  final bool ativo;
+  final DateTime prozo;
+  final String user;
+  DesafioEntity(
+      {required this.imageUrl,
+      required this.titulo,
+      required this.tag,
+      required this.regras,
+      required this.duration,
+      required this.ativo,
+      required this.prozo,
+      required this.user});
 }
 
 class DesafioFrom {
-  final File image;
+  final File? image;
   final String titulo;
-  final DateTime dataLimite;
+  final bool ativo;
+  final int duration;
   final String listDeRegras;
   final String tag;
+  final String usuario;
+
   const DesafioFrom({
+    required this.ativo,
     required this.image,
     required this.titulo,
     required this.tag,
     required this.listDeRegras,
-    required this.dataLimite,
+    required this.duration,
+    required this.usuario,
   });
 }

@@ -7,8 +7,6 @@ import 'package:testes_de_estudos/App/Controller/AppController.dart';
 import 'package:testes_de_estudos/App/Data_Source/Domain/Entities/Post.dart';
 import 'package:testes_de_estudos/App/LocalServices/Formate_Data.dart';
 import 'package:testes_de_estudos/App/Services/AppInstances.dart';
-import 'package:testes_de_estudos/App/Styles/App_Styles.dart';
-import 'package:testes_de_estudos/App/Widgets/Cards/Card_Comentario.dart';
 
 import 'package:testes_de_estudos/App/Widgets/RandomColor.dart';
 import 'package:testes_de_estudos/App/Widgets/UserCircularAvatar.dart';

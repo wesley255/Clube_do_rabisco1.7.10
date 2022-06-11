@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
 import 'package:testes_de_estudos/App/Services/AppInstances.dart';
 import 'package:testes_de_estudos/Pages/Perfil/Perfil_page.dart';
 

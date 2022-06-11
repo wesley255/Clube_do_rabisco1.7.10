@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
 
 import 'dart:io';
 
@@ -17,7 +17,7 @@ class FirebaseCloudUserData implements UserDataSourcer {
       String url = await SaveImageinNetwork.save(
         image: newAvatar.image,
         nameImage: 'avatar',
-        endereco: AppSevices.appController.loggedUser!.email!,
+        endereco: 'users/${AppSevices.appController.loggedUser!.email!}',
       );
 
       await FirebaseFirestore.instance
@@ -36,7 +36,7 @@ class FirebaseCloudUserData implements UserDataSourcer {
       String url = await SaveImageinNetwork.save(
         image: newBackGrandedImage.image,
         nameImage: 'backgrandImage',
-        endereco: AppSevices.appController.getMyUser().email,
+        endereco: 'users/${AppSevices.appController.getMyUser().email}',
       );
       await FirebaseFirestore.instance
           .collection('Dados dos Usuarios')

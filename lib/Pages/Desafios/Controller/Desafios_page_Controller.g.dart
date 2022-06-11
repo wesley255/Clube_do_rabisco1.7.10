@@ -94,8 +94,8 @@ mixin _$DesafioPageControllerMobx on _DesafilPageControllerIMLP, Store {
       context: context);
 
   @override
-  Future<void> saveNewDesafio() {
-    return _$saveNewDesafioAsyncAction.run(() => super.saveNewDesafio());
+  Future<void> saveNewDesafio(BuildContext context) {
+    return _$saveNewDesafioAsyncAction.run(() => super.saveNewDesafio(context));
   }
 
   late final _$getListDesafiosAsyncAction = AsyncAction(
@@ -147,6 +147,17 @@ mixin _$DesafioPageControllerMobx on _DesafilPageControllerIMLP, Store {
         .startAction(name: '_DesafilPageControllerIMLP.tagConfig');
     try {
       return super.tagConfig();
+    } finally {
+      _$_DesafilPageControllerIMLPActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic _interfaceErro(DesafioExpition error, BuildContext context) {
+    final _$actionInfo = _$_DesafilPageControllerIMLPActionController
+        .startAction(name: '_DesafilPageControllerIMLP._interfaceErro');
+    try {
+      return super._interfaceErro(error, context);
     } finally {
       _$_DesafilPageControllerIMLPActionController.endAction(_$actionInfo);
     }

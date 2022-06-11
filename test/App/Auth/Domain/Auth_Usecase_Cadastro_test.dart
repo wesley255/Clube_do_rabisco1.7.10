@@ -1,14 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Auth_Usecase_Cadastro.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Errors/AuthExepition.dart';
-import 'package:testes_de_estudos/App/Auth/infra/Repository/Auth_Repository_Cadastro.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Auth_Usecase_Cadastro.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/infra/Repository/Auth_Repository_Cadastro.dart';
 
 class MockRepository implements AuthRepositoryCadastroContract {
   @override
-  Future<Either<AuthExeption, LoggedUserEntity>> cadastrar(
-      CadastroFormEntity formCadastro) async {
+  cadastrar(CadastroFormEntity formCadastro) async {
     return right(LoggedUserEntity());
   }
 }
@@ -16,10 +14,7 @@ class MockRepository implements AuthRepositoryCadastroContract {
 void main() {
   final MockRepository mockRepository = MockRepository();
   final AuthUsercaseCadasto auth = AuthUsercaseCadasto(mockRepository);
-  test('Cadastrado com susseso! ...', () async {
-    var result = await auth.cadastra(cadastroCerto);
-    expect(result.isRight(), true);
-  });
+
   test('email invalido', () async {
     var result = await auth.cadastra(cadastroemailInvalido);
     expect(result.isLeft(), true);

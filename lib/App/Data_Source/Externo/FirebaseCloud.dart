@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
 import 'package:testes_de_estudos/App/Controller/AppController.dart';
 
 import 'package:testes_de_estudos/App/Data_Source/Infra/DataSource/DataSource_Data.dart';
@@ -121,7 +121,7 @@ class FirebaseCloud implements DataSourceData {
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference ref =
         storage.ref().child(imageform.endereco).child(imageform.imageName);
-    UploadTask uploadTask = ref.putFile(imageform.localImage.image);
+    UploadTask uploadTask = ref.putFile(imageform.image);
     var url = await (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
     return url.toString();
   }

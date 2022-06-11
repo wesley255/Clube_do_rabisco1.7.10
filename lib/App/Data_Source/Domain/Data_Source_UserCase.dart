@@ -1,12 +1,14 @@
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
+import 'dart:io';
+
 import 'package:testes_de_estudos/App/Controller/AppController.dart';
 
 import 'package:testes_de_estudos/App/Data_Source/Infra/Repository/DataSourceRepositore.dart';
 import 'package:testes_de_estudos/App/LocalServices/Entities/ImageDataEntitie.dart';
 import 'package:testes_de_estudos/App/Services/AppInstances.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
 
 import '../../LocalServices/Create_ID.dart';
-import '../../LocalServices/Formate_Data.dart';
+
 import 'Entities/Post.dart';
 
 abstract class DataSourceUsercaseUserCase {
@@ -37,7 +39,7 @@ class DataSourceUsercaseUserCaseIMPL implements DataSourceUsercaseUserCase {
       UploadImageForm imageFrom = UploadImageForm(
         endereco: 'posts',
         imageName: 'image' + criateID(),
-        localImage: localImage,
+        image: localImage.image,
       );
       String imageurl = await uploadImage(imageFrom);
       Post newPost = Post(
@@ -66,11 +68,12 @@ class DataSourceUsercaseUserCaseIMPL implements DataSourceUsercaseUserCase {
 }
 
 class UploadImageForm {
-  LocalImage localImage;
+  File image;
   String endereco;
   String imageName;
-  UploadImageForm(
-      {required this.endereco,
-      required this.imageName,
-      required this.localImage});
+  UploadImageForm({
+    required this.endereco,
+    required this.imageName,
+    required this.image,
+  });
 }

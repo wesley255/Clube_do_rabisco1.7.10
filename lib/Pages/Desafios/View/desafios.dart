@@ -1,9 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:testes_de_estudos/App/Widgets/Cards/Card_Desafio.dart';
+import 'package:testes_de_estudos/App/Widgets/Cards/Card_Select_Desafio.dart';
+
+import 'package:testes_de_estudos/App/src/Desadios/Domain/Entitys/Desafio_Entity.dart';
 import 'package:testes_de_estudos/App/Styles/App_Styles.dart';
+import 'package:testes_de_estudos/Pages/Desafios/Controller/Desafios_page_Controller.dart';
 import 'package:testes_de_estudos/Pages/Desafios/View/Add_Desafio_Page.dart';
 
 import '../../../App/LocalServices/set_Clock.dart';
@@ -18,61 +22,59 @@ class Desafios extends StatefulWidget {
 class _DesafiosState extends State<Desafios> {
   @override
   void initState() {
-    a = ClockRemainingTime.getFuturedata(addtime: Duration(days: 5));
-    _startRelogio();
+    DesafioPageController.controller.getListDesafios();
     super.initState();
   }
 
-  DateTime a = DateTime.now();
-  _startRelogio() async {
-    tempo.value = ClockRemainingTime.getdifferenceTime(dateTime: a);
-    await Future.delayed(Duration(seconds: 1));
-    _startRelogio();
+  @override
+  void dispose() {
+    super.dispose();
   }
 
-  ValueNotifier<String> tempo = ValueNotifier('');
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Padding(
           padding: EdgeInsets.all(10),
-          child: Column(children: [
-            ValueListenableBuilder(
-                valueListenable: tempo,
-                builder: (context, a, b) {
-                  return DesafilCard(
-                    titulo: 'looney tunes',
-                    ativo: true,
-                    teporestante: tempo.value,
-                  );
-                }),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Text(
-                'Lista de Desafios',
-                style: TextStyle(
-                  fontFamily: AppFontes.montserrat,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: urls.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: DesafilCard(
-                      titulo: 'Cenarios',
-                      ativo: false,
+          child: Observer(builder: (context) {
+            return Column(
+              children: [
+                DesafioPageController.controller.desafioAtivo.isEmpty
+                    ? SelectDesafioCard()
+                    : DesafilCard(
+                        desafio:
+                            DesafioPageController.controller.desafioAtivo[0],
+                      ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    'Lista de Desafios',
+                    style: TextStyle(
+                      fontFamily: AppFontes.montserrat,
+                      fontSize: 18,
                     ),
-                  );
-                },
-              ),
-            ),
-          ]),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: DesafioPageController
+                        .controller.desafiosNaoAtivos.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: DesafilCard(
+                          desafio: DesafioPageController
+                              .controller.desafiosNaoAtivos[index],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }),
         ),
         floatingActionButton: GestureDetector(
           onTap: () {
@@ -90,86 +92,6 @@ class _DesafiosState extends State<Desafios> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class DesafilCard extends StatelessWidget {
-  final String? url;
-  final String titulo;
-  final bool ativo;
-  final String? teporestante;
-  const DesafilCard({
-    this.url,
-    this.teporestante,
-    required this.titulo,
-    required this.ativo,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 394 / 178,
-      child: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.orange,
-              borderRadius: BorderRadius.circular(10),
-              image: url != null
-                  ? DecorationImage(
-                      image: NetworkImage(url!),
-                      fit: BoxFit.cover,
-                    )
-                  : null,
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30),
-                  child: Text(
-                    titulo.length > 10
-                        ? '"${titulo.substring(0, 9)}..."'
-                        : '"$titulo"',
-                    style: TextStyle(
-                        fontSize: 48,
-                        fontFamily: AppFontes.montserratExtraBold,
-                        fontWeight: FontWeight.bold,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 10,
-                            color: Colors.black,
-                            offset: Offset(2, 3),
-                          )
-                        ]),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    color: Color.fromRGBO(2, 12, 17, 0.75),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '#$titulo',
-                          style: TextStyle(
-                            fontSize: ativo != true ? 20 : 14,
-                            fontFamily: AppFontes.montserratExtraBold,
-                          ),
-                        ),
-                        ativo != true ? SizedBox() : Text('$teporestante')
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            color: ativo != true ? Color.fromRGBO(2, 12, 17, 0.75) : null,
-          )
-        ],
       ),
     );
   }

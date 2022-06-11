@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Errors/AuthExepition.dart';
-import 'package:testes_de_estudos/App/Auth/infra/Datasource/Auth_datasource_Cadastro.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Errors/AuthExepition.dart';
+import 'package:testes_de_estudos/App/src/Auth/infra/Datasource/Auth_datasource_Cadastro.dart';
 
 abstract class AuthRepositoryCadastroContract {
   Future<Either<AuthExeption, LoggedUserEntity>> cadastrar(
@@ -20,7 +19,6 @@ class AuthRepositoryCadastro implements AuthRepositoryCadastroContract {
       return right(LoggedUserEntity(email: formCadastro.email));
     } on FirebaseAuthException catch (error) {
       /*-----------------------[error]-----------------------*/
-      print('error cadastro:${error.message}');
       String? _errorEmail;
       if (error.message ==
           'The email address is already in use by another account.') {

@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:testes_de_estudos/App/Controller/AppController.dart';
 import 'package:testes_de_estudos/App/Data_Source/Domain/Entities/Comentario_Entitie.dart';
 import 'package:testes_de_estudos/App/Data_Source/Domain/Entities/Post.dart';
-import 'package:testes_de_estudos/App/Data_Source/Externo/FirebaseCloud.dart';
+
 import 'package:testes_de_estudos/App/Services/AppInstances.dart';
 import 'package:testes_de_estudos/App/Widgets/UserCircularAvatar.dart';
 import 'package:testes_de_estudos/Pages/Comentarios/Controller/ComentarioPageController.dart';

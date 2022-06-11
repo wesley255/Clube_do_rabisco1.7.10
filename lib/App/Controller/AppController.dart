@@ -1,8 +1,8 @@
 import 'package:mobx/mobx.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
 
 import 'package:testes_de_estudos/App/Data_Source/Domain/Entities/Post.dart';
 import 'package:testes_de_estudos/App/Services/AppInstances.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
 
 import '../Data_Source/Domain/Entities/Comentario_Entitie.dart';
 
@@ -47,9 +47,8 @@ abstract class _AppController with Store {
   /*---------------------/\-[Instâncias]-/\----------------------*/
   @action
   Future<void> inicialiceLists() async {
-    Map<String, UserData> _soucerUser = await dataSource.incializeListUserData(
-      AppSevices.appController,
-    );
+    Map<String, UserData> _soucerUser =
+        await dataSource.incializeListUserData(AppSevices.appController);
     Map<String, Post>? _soucerPost = await dataSource.inicializeListPost(
       AppSevices.appController,
     );

@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Errors/AuthExepition.dart';
-import 'package:testes_de_estudos/App/Auth/infra/Datasource/Auth_datasource_Login.dart';
-
-import '../../Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Errors/AuthExepition.dart';
+import 'package:testes_de_estudos/App/src/Auth/infra/Datasource/Auth_datasource_Login.dart';
 
 abstract class AuthRepositoryLoginContract {
   Future<Either<AuthExeption, LoggedUserEntity>> login(

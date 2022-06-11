@@ -1,13 +1,11 @@
-import 'package:dartz/dartz.dart';
-
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:testes_de_estudos/App/Auth/Domain/Auth_Usercase_Login.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Errors/AuthExepition.dart';
-import 'package:testes_de_estudos/App/Auth/infra/Datasource/Auth_datasource_Login.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Auth_Usercase_Login.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
 
-import 'package:testes_de_estudos/App/Auth/infra/Repository/Auth_Repository_Login.dart';
+import 'package:testes_de_estudos/App/src/Auth/infra/Datasource/Auth_datasource_Login.dart';
+
+import 'package:testes_de_estudos/App/src/Auth/infra/Repository/Auth_Repository_Login.dart';
 
 class MockExterno extends AuthDatasorceLoginContract {
   @override

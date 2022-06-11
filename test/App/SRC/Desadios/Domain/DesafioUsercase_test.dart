@@ -1,12 +1,30 @@
 import 'dart:io';
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:testes_de_estudos/App/LocalServices/set_Clock.dart';
-import 'package:testes_de_estudos/App/SRC/Desadios/Domain/DesafioUsercase.dart';
-import 'package:testes_de_estudos/App/SRC/Desadios/Domain/Entitys/Desafio_Entity.dart';
-import 'package:testes_de_estudos/App/SRC/Desadios/Domain/error/Desfio_Expition.dart';
+import 'package:testes_de_estudos/App/src/Desadios/Data/Repository/Desfio_Repository.dart';
 
-DesafiosUsercaseContracte desafioUsercasemock = DesafiosUsercase();
+import 'package:testes_de_estudos/App/src/Desadios/Domain/DesafioUsercase.dart';
+import 'package:testes_de_estudos/App/src/Desadios/Domain/Entitys/Desafio_Entity.dart';
+import 'package:testes_de_estudos/App/src/Desadios/Domain/error/Desfio_Expition.dart';
+
+class MockDesafioRepository implements DesafioRepositoyContract {
+  @override
+  Future<Either<DesafioExpition, Map<String, DesafioEntity>>>
+      getMapListDesfios() {
+    throw Exception();
+  }
+
+  @override
+  saveDesafio(DesafioFrom from) async {
+    return right('r');
+  }
+}
+
+var mockDesafioRepository = MockDesafioRepository();
+
+DesafiosUsercaseContracte desafioUsercasemock =
+    DesafiosUsercase(mockDesafioRepository);
 void main() {
   test('Validado com sucesso', () async {
     var resut = await desafioUsercasemock.validarAndSaveDesafio(_fromCerto);
@@ -53,81 +71,89 @@ void main() {
     expect((resut.fold((l) => l, (r) => null) as DesafioExpition).listDeRegras,
         'tamanho da regra e muito curta!');
   });
-  test('data invalida', () async {
-    var resut = await desafioUsercasemock.validarAndSaveDesafio(_fromdatahoje);
+  test('duraçao muito longa', () async {
+    var resut = await desafioUsercasemock.validarAndSaveDesafio(_fromdatalonga);
     expect(resut.isLeft(), true);
-    expect((resut.fold((l) => l, (r) => null) as DesafioExpition).dataLimite,
+    expect((resut.fold((l) => l, (r) => null) as DesafioExpition).duration,
         'Data invalida!');
   });
-  test('data antiga', () async {
-    var resut =
-        await desafioUsercasemock.validarAndSaveDesafio(_fromdataantiga);
+  test('duraçao muito curta', () async {
+    var resut = await desafioUsercasemock.validarAndSaveDesafio(_fromdatacurta);
     expect(resut.isLeft(), true);
-    expect((resut.fold((l) => l, (r) => null) as DesafioExpition).dataLimite,
+    expect((resut.fold((l) => l, (r) => null) as DesafioExpition).duration,
         'Data invalida!');
   });
 }
 
 DesafioFrom _fromCerto = DesafioFrom(
-  image: File('imagemock'),
-  titulo: '"titulo"',
-  tag: '#tag',
-  listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
-  dataLimite: ClockRemainingTime.getFuturedata(addtime: Duration(days: 3)),
-);
+    image: File('imagemock'),
+    titulo: '"titulo"',
+    tag: '#tag',
+    listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
+    duration: 4,
+    ativo: false,
+    usuario: 'usuario');
 DesafioFrom _fromtitulocurto = DesafioFrom(
-  image: File('imagemock'),
-  titulo: '"ti"',
-  tag: '#tag',
-  listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
-  dataLimite: ClockRemainingTime.getFuturedata(addtime: Duration(days: 3)),
-);
+    image: File('imagemock'),
+    titulo: '"ti"',
+    tag: '#tag',
+    listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
+    duration: 3,
+    ativo: false,
+    usuario: 'usuario');
 DesafioFrom _fromtitulomuitoLongo = DesafioFrom(
-  image: File('imagemock'),
-  titulo: '"12345678912450554463547851454"',
-  tag: '#tag',
-  listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
-  dataLimite: ClockRemainingTime.getFuturedata(addtime: Duration(days: 3)),
-);
+    image: File('imagemock'),
+    titulo: '"12345678912450554463547851454"',
+    tag: '#tag',
+    listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
+    duration: 3,
+    ativo: false,
+    usuario: 'usuario');
 DesafioFrom _fromtaginvalida = DesafioFrom(
-  image: File('imagemock'),
-  titulo: '"titulo"',
-  tag: 'tag',
-  listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
-  dataLimite: ClockRemainingTime.getFuturedata(addtime: Duration(days: 3)),
-);
+    image: File('imagemock'),
+    titulo: '"titulo"',
+    tag: 'tag',
+    listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
+    duration: 3,
+    ativo: false,
+    usuario: 'usuario');
 DesafioFrom _fromtagcurta = DesafioFrom(
-  image: File('imagemock'),
-  titulo: '"titulo"',
-  tag: '#gs',
-  listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
-  dataLimite: ClockRemainingTime.getFuturedata(addtime: Duration(days: 3)),
-);
+    image: File('imagemock'),
+    titulo: '"titulo"',
+    tag: '#gs',
+    listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
+    duration: 3,
+    ativo: false,
+    usuario: 'usuario');
 DesafioFrom _fromListaDeRegrasVasia = DesafioFrom(
-  image: File('imagemock'),
-  titulo: '"titulo"',
-  tag: '#gs',
-  listDeRegras: '',
-  dataLimite: ClockRemainingTime.getFuturedata(addtime: Duration(days: 3)),
-);
+    image: File('imagemock'),
+    titulo: '"titulo"',
+    tag: '#gs',
+    listDeRegras: '',
+    duration: 3,
+    ativo: false,
+    usuario: 'usuario');
 DesafioFrom _fromListaDeRegrascurta = DesafioFrom(
-  image: File('imagemock'),
-  titulo: '"titulo"',
-  tag: '#gs',
-  listDeRegras: '* ',
-  dataLimite: ClockRemainingTime.getFuturedata(addtime: Duration(days: 3)),
-);
-DesafioFrom _fromdatahoje = DesafioFrom(
-  image: File('imagemock'),
-  titulo: '"titulo"',
-  tag: '#tag',
-  listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
-  dataLimite: DateTime.now(),
-);
-DesafioFrom _fromdataantiga = DesafioFrom(
-  image: File('imagemock'),
-  titulo: '"titulo"',
-  tag: '#tag',
-  listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
-  dataLimite: DateTime.utc(2022, 06, 7),
-);
+    image: File('imagemock'),
+    titulo: '"titulo"',
+    tag: '#gs',
+    listDeRegras: '* ',
+    duration: 3,
+    ativo: false,
+    usuario: 'usuario');
+DesafioFrom _fromdatalonga = DesafioFrom(
+    image: File('imagemock'),
+    titulo: '"titulo"',
+    tag: '#tag',
+    listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
+    duration: 10,
+    ativo: false,
+    usuario: 'usuario');
+DesafioFrom _fromdatacurta = DesafioFrom(
+    image: File('imagemock'),
+    titulo: '"titulo"',
+    tag: '#tag',
+    listDeRegras: 'regra1' '\n' 'regra2 ' '\n' 'regra3',
+    duration: 1,
+    ativo: false,
+    usuario: 'usuario');

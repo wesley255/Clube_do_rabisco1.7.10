@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:testes_de_estudos/App/Data_Source/error/Data_source_Expition.dart';
 import 'package:testes_de_estudos/App/LocalServices/Entities/ImageDataEntitie.dart';
-
-import '../../../Auth/Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
 
 abstract class UserDataSourcer {
   Future<Either<DataSourceException, String>> saveName(String newName);

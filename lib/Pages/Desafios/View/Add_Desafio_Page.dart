@@ -158,7 +158,10 @@ class _AddDesafioPageState extends State<AddDesafioPage> {
                         ),
                         CusttonButton(
                           labal: 'Adicionar',
-                          ontap: () {},
+                          ontap: () {
+                            pageController.saveNewDesafio(context);
+                            AlertDialog();
+                          },
                         ),
                       ],
                     ),

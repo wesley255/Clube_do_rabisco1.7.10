@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Errors/AuthExepition.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Errors/AuthExepition.dart';
 
 import 'package:testes_de_estudos/App/Services/AppInstances.dart';
 import 'package:testes_de_estudos/App/Widgets/Cards/Card_loading.dart';

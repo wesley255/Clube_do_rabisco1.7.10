@@ -1,10 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Entities/UserEntitie.dart';
-import 'package:testes_de_estudos/App/Auth/Domain/Errors/AuthExepition.dart';
-import 'package:testes_de_estudos/App/Auth/infra/Repository/Auth_Repository_Cadastro.dart';
-
-import '../../Services/AppInstances.dart';
+import 'package:testes_de_estudos/App/Services/AppInstances.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Entities/UserEntitie.dart';
+import 'package:testes_de_estudos/App/src/Auth/Domain/Errors/AuthExepition.dart';
+import 'package:testes_de_estudos/App/src/Auth/infra/Repository/Auth_Repository_Cadastro.dart';
 
 abstract class AuthUsercaseCadastoContract {
   Future<Either<AuthExeption, LoggedUserEntity>> cadastra(
@@ -80,7 +79,7 @@ class AuthUsercaseCadasto implements AuthUsercaseCadastoContract {
           AppSevices.appController.loggedUser = loggedUser;
           return right(loggedUser);
         },
-      );
+      ); //
     }
     return left(AuthExeption(
       emailError: _errorEmail,
