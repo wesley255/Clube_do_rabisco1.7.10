@@ -1,23 +1,17 @@
 import 'dart:io';
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
-
+import 'package:testes_de_estudos/App/Data_Source/Domain/Entities/Post.dart';
 import 'package:testes_de_estudos/App/LocalServices/Fixed_Format.dart';
-import 'package:testes_de_estudos/App/LocalServices/set_Clock.dart';
+import 'package:testes_de_estudos/App/LocalServices/Get_Image.dart';
 import 'package:testes_de_estudos/App/SRC/Desadios/Externo/Desafio_Firebase.dart';
-import 'package:testes_de_estudos/App/Widgets/RandomColor.dart';
+import 'package:testes_de_estudos/App/Widgets/Cards/Case_Select_imagePost.dart';
 import 'package:testes_de_estudos/App/src/Desadios/Data/Repository/Desfio_Repository.dart';
 import 'package:testes_de_estudos/App/src/Desadios/Domain/DesafioUsercase.dart';
 import 'package:testes_de_estudos/App/src/Desadios/Domain/error/Desfio_Expition.dart';
-
 import 'package:testes_de_estudos/App/Services/AppInstances.dart';
 import 'package:testes_de_estudos/App/Widgets/Cards/Card_loading.dart';
-
 import 'package:testes_de_estudos/Pages/Desafios/View/Add_Desafio_Page.dart';
-
 import '../../../App/LocalServices/Entities/ImageDataEntitie.dart';
 import '../../../App/src/Desadios/Domain/Entitys/Desafio_Entity.dart';
 
@@ -40,6 +34,8 @@ abstract class _DesafilPageControllerIMLP with Store {
   @observable
   File? desafioImageSelect;
   @observable
+  TextEditingController desafioPostTextComtroller = TextEditingController();
+  @observable
   bool listDesafioLoading = true;
   @observable
   int dias = 2;
@@ -53,9 +49,16 @@ abstract class _DesafilPageControllerIMLP with Store {
   @computed
   List<DesafioEntity> get desafiosNaoAtivos =>
       mapLisDesafios.values.where((element) => !element.ativo).toList();
-
+  @computed
+  List<Post> get getListPostDoDesafio =>
+      AppSevices.appController.mapListPosts.values
+          .where((element) => element.tags[0] == desafioAtivo[0].tag)
+          .toList();
   bool travaSicronia = false;
+
   /*--[actions]--*/
+  @computed
+  bool get desafiovalido => DateTime.now().isBefore(desafioAtivo[0].prozo);
   @action
   void addDayDesafio() {
     if (dias < 7) {
@@ -68,6 +71,37 @@ abstract class _DesafilPageControllerIMLP with Store {
     if (dias > 2) {
       dias--;
     }
+  }
+
+  Future selectDesafioImagePost(BuildContext context) async {
+    LocalImage? valueImage = await GetImagePiker().getimage();
+    if (valueImage != null) {
+      CardSelectImagePostWidget(
+        buttonAction: () async {
+          await uploadNewPosts(context, valueImage);
+        },
+        tag: desafioAtivo[0].tag,
+        textController: desafioPostTextComtroller,
+        user: AppSevices.appController.getMyUser(),
+        context: context,
+        imageSoucer: valueImage,
+      ).showMyDialog();
+    }
+  }
+
+  @action
+  Future<void> uploadNewPosts(BuildContext context, LocalImage image) async {
+    CardLoading cardLoading = CardLoading(context: context);
+    cardLoading.showMyDialog('Posttando', false);
+    await AppSevices.webdatasorce.uploadPost(
+      label: desafioPostTextComtroller.text,
+      localImage: image,
+      tags: [desafioAtivo[0].tag],
+    );
+    cardLoading.claseCard();
+    cardLoading.claseCard();
+    desafioPostTextComtroller.clear();
+    FocusScope.of(context).requestFocus(FocusNode());
   }
 
   @action

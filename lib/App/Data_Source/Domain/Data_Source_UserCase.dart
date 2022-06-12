@@ -14,7 +14,8 @@ import 'Entities/Post.dart';
 abstract class DataSourceUsercaseUserCase {
   Future<Map<String, Post>> inicializeListPost(AppController app);
   Future<Map<String, UserData>> incializeListUserData(AppController app);
-  Future<void> uploadPost(LocalImage? localImage, String label);
+  Future<void> uploadPost(
+      {LocalImage? localImage, String? label, List<String>? tags});
 
   Future<String> uploadImage(UploadImageForm image);
 }
@@ -34,7 +35,8 @@ class DataSourceUsercaseUserCaseIMPL implements DataSourceUsercaseUserCase {
   }
 
   @override
-  Future<void> uploadPost(LocalImage? localImage, String label) async {
+  Future<void> uploadPost(
+      {LocalImage? localImage, String? label, List<String>? tags}) async {
     if (localImage != null) {
       UploadImageForm imageFrom = UploadImageForm(
         endereco: 'posts',
@@ -43,9 +45,10 @@ class DataSourceUsercaseUserCaseIMPL implements DataSourceUsercaseUserCase {
       );
       String imageurl = await uploadImage(imageFrom);
       Post newPost = Post(
+        tags: tags ?? [],
         id: criateID(),
         user: AppSevices.appController.loggedUser!.email!,
-        label: label,
+        label: label ?? '',
         data: DateTime.now(),
         image: [
           {

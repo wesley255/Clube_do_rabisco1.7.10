@@ -6,14 +6,15 @@ class Post {
   final List favorios;
   final int nComentarios;
   final String id;
+  final List tags;
 
-  Post({
-    required this.id,
-    required this.user,
-    required this.label,
-    required this.data,
-    required this.image,
-    required this.favorios,
-    required this.nComentarios,
-  });
+  Post(
+      {required this.id,
+      required this.user,
+      required this.label,
+      required this.data,
+      required this.image,
+      required this.favorios,
+      required this.nComentarios,
+      required this.tags});
 }

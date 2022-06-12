@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testes_de_estudos/Pages/Desafios/View/desafios.dart';
+import 'package:testes_de_estudos/Pages/Desafios/View/Desafio_Page.dart';
 import 'package:testes_de_estudos/Pages/Home/Home_Page.dart';
 import 'package:testes_de_estudos/Pages/Perfil/Perfil_page.dart';
 

@@ -6,9 +6,10 @@ import 'package:testes_de_estudos/Pages/Desafios/Controller/Desafios_page_Contro
 import 'package:testes_de_estudos/Pages/Desafios/View/Desafio_Fullscream.dart';
 
 class DesafilCard extends StatefulWidget {
+  final VoidCallback? onTap;
   final bool? fullScrean;
   final DesafioEntity desafio;
-  const DesafilCard({required this.desafio, this.fullScrean});
+  const DesafilCard({required this.desafio, this.fullScrean, this.onTap});
 
   @override
   State<DesafilCard> createState() => _DesafilCardState();
@@ -46,12 +47,7 @@ class _DesafilCardState extends State<DesafilCard> {
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: () {
-          if (widget.fullScrean != true) {
-            ShowDesafio()
-                .showDesafio(desafio: widget.desafio, context: context);
-          }
-        },
+        onTap: widget.onTap,
         child: Container(
           padding: isFullScream ? EdgeInsets.all(10) : null,
           color: Color(0xff081720),

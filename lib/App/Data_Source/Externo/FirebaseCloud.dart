@@ -19,9 +19,8 @@ class FirebaseCloud implements DataSourceData {
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
-        List _a = (doc.get('Listimage'));
-
         _listPost[doc.id.toString()] = Post(
+          tags: doc['tags'],
           id: doc.id.toString(),
           data: (doc['data'] as Timestamp).toDate(),
           favorios: (doc.get('favoritos')),
@@ -43,6 +42,7 @@ class FirebaseCloud implements DataSourceData {
         app.mapListPosts.remove(doc.id);
       } else {
         app.mapListPosts[doc.id] = Post(
+          tags: doc['tags'],
           id: doc.id,
           user: doc.get('user'),
           label: doc.get('label'),
@@ -107,6 +107,7 @@ class FirebaseCloud implements DataSourceData {
   @override
   Future<void> uploadPost(Post newPost) async {
     await FirebaseFirestore.instance.collection('Posts').doc(newPost.id).set({
+      'tags': newPost.tags,
       'data': newPost.data,
       'Listimage': newPost.image,
       'user': newPost.user,

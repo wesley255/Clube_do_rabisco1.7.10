@@ -7,6 +7,7 @@ import 'package:testes_de_estudos/App/Controller/AppController.dart';
 import 'package:testes_de_estudos/App/Data_Source/Domain/Entities/Post.dart';
 import 'package:testes_de_estudos/App/LocalServices/Formate_Data.dart';
 import 'package:testes_de_estudos/App/Services/AppInstances.dart';
+import 'package:testes_de_estudos/App/Styles/App_Styles.dart';
 
 import 'package:testes_de_estudos/App/Widgets/RandomColor.dart';
 import 'package:testes_de_estudos/App/Widgets/UserCircularAvatar.dart';
@@ -42,6 +43,10 @@ class CardPost extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: '${app.mapListUsers[post.user]!.nome}\n',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: AppFontes.montserratExtraBold,
+                        ),
                       ),
                       TextSpan(text: app.mapListUsers[post.user]!.username),
                     ],
@@ -56,6 +61,16 @@ class CardPost extends StatelessWidget {
               Text(formatedata.formateDate(data: post.data))
             ],
           ),
+          post.tags[0] != '#'
+              ? Text(
+                  post.tags[0],
+                  style: TextStyle(
+                    color: Color(0xff4FC0FF),
+                    fontFamily: AppFontes.montserrat,
+                    fontSize: 14,
+                  ),
+                )
+              : SizedBox(),
           post.label != ''
               ? Container(
                   padding: const EdgeInsets.symmetric(horizontal: 5),

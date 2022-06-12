@@ -30,6 +30,7 @@ abstract class _HomeStore with Store {
     localImageHomePost = await _getImage.getimage();
     if (localImageHomePost != null) {
       CardSelectImagePostWidget(
+        buttonAction: () => uploadNewPosts(context),
         textController: homeTextController,
         user: _app.getMyUser(),
         context: context,
@@ -43,8 +44,9 @@ abstract class _HomeStore with Store {
     CardLoading cardLoading = CardLoading(context: context);
     cardLoading.showMyDialog('Posttando', false);
     await _app.dataSource.uploadPost(
-      localImageHomePost,
-      homeTextController.text,
+      tags: ['#'],
+      label: homeTextController.text,
+      localImage: localImageHomePost,
     );
     cardLoading.claseCard();
     cardLoading.claseCard();
